@@ -1,0 +1,42 @@
+<?php
+
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
+//Authenticated routes with tenant isolation
+Route::middleware('auth')->group(function () {
+    // Profile Management
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+     // Category Management (CRUD)
+    Route::resource('categories', \App\Http\Controllers\CategoryController::class);
+
+     // Transaction Management (CRUD)
+    Route::resource('transactions', \App\Http\Controllers\TransactionController::class);
+    
+     //Financial Reports
+    Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
+
+     // Family Members Management
+    Route::middleware('can:manage-family')->group(function () {
+        Route::get('/family', [\App\Http\Controllers\FamilyMemberController::class, 'index'])->name('family.index');
+        Route::get('/family/create', [\App\Http\Controllers\FamilyMemberController::class, 'create'])->name('family.create');
+        Route::post('/family', [\App\Http\Controllers\FamilyMemberController::class, 'store'])->name('family.store');
+        Route::get('/family/{user}', [\App\Http\Controllers\FamilyMemberController::class, 'show'])->name('family.show');
+        Route::get('/family/{user}/edit', [\App\Http\Controllers\FamilyMemberController::class, 'edit'])->name('family.edit');
+        Route::put('/family/{user}', [\App\Http\Controllers\FamilyMemberController::class, 'update'])->name('family.update');
+        Route::delete('/family/{user}', [\App\Http\Controllers\FamilyMemberController::class, 'destroy'])->name('family.destroy');
+    });
+});
+
+require __DIR__ . '/auth.php';
