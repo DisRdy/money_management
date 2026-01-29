@@ -107,4 +107,26 @@ class User extends Authenticatable
     {
         return $this->role === 'child';
     }
+
+    /**
+     * Get the settings for this user.
+     * Relationship: User has one UserSetting (One-to-One)
+     */
+    public function settings()
+    {
+        return $this->hasOne(UserSetting::class);
+    }
+
+    /**
+     * Get the user's theme preference.
+     * Auto-creates settings record if missing.
+     */
+    public function getTheme(): string
+    {
+        if (!$this->settings) {
+            $this->settings()->create(['theme' => 'system']);
+            $this->refresh();
+        }
+        return $this->settings->theme;
+    }
 }
