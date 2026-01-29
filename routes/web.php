@@ -18,16 +18,16 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-     // Category Management (CRUD)
+    // Category Management (CRUD)
     Route::resource('categories', \App\Http\Controllers\CategoryController::class);
 
-     // Transaction Management (CRUD)
+    // Transaction Management (CRUD)
     Route::resource('transactions', \App\Http\Controllers\TransactionController::class);
-    
-     //Financial Reports
+
+    //Financial Reports
     Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
 
-     // Family Members Management
+    // Family Members Management
     Route::middleware('can:manage-family')->group(function () {
         Route::get('/family', [\App\Http\Controllers\FamilyMemberController::class, 'index'])->name('family.index');
         Route::get('/family/create', [\App\Http\Controllers\FamilyMemberController::class, 'create'])->name('family.create');
@@ -36,6 +36,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/family/{user}/edit', [\App\Http\Controllers\FamilyMemberController::class, 'edit'])->name('family.edit');
         Route::put('/family/{user}', [\App\Http\Controllers\FamilyMemberController::class, 'update'])->name('family.update');
         Route::delete('/family/{user}', [\App\Http\Controllers\FamilyMemberController::class, 'destroy'])->name('family.destroy');
+    });
+
+    // Audit Logs (Owner only - read-only access)
+    Route::middleware('can:view-audit-logs')->group(function () {
+        Route::get('/audit-logs', [\App\Http\Controllers\AuditLogController::class, 'index'])->name('audit-logs.index');
+        Route::get('/audit-logs/{auditLog}', [\App\Http\Controllers\AuditLogController::class, 'show'])->name('audit-logs.show');
     });
 });
 

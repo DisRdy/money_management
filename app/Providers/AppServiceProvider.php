@@ -23,5 +23,13 @@ class AppServiceProvider extends ServiceProvider
         \Illuminate\Support\Facades\Gate::define('manage-family', function ($user) {
             return $user->isOwner();
         });
+
+        // Audit Log Gate - Owner only
+        \Illuminate\Support\Facades\Gate::define('view-audit-logs', function ($user) {
+            return $user->isOwner();
+        });
+
+        // Register Observers
+        \App\Models\Transaction::observe(\App\Observers\TransactionObserver::class);
     }
 }
