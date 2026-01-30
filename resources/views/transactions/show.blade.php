@@ -24,7 +24,8 @@
                     <div class="flex justify-between items-start mb-6">
                         <div>
                             <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                                {{ $transaction->description }}</h3>
+                                {{ $transaction->description }}
+                            </h3>
                             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                                 {{ $transaction->transaction_date->format('l, d F Y') }}
                             </p>
@@ -42,7 +43,8 @@
                         <div
                             class="text-4xl font-bold 
                             {{ $transaction->type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
-                            {{ $transaction->type === 'income' ? '+' : '-' }} Rp
+                            {{ $transaction->type === 'income' ? '+' : '-' }}
+                            {{ auth()->user()->tenant->currency_symbol }}
                             {{ number_format($transaction->amount, 0, ',', '.') }}
                         </div>
                     </div>
@@ -58,7 +60,8 @@
                                 </p>
                                 @if($transaction->category->description)
                                     <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                                        {{ $transaction->category->description }}</p>
+                                        {{ $transaction->category->description }}
+                                    </p>
                                 @endif
                             </div>
 
@@ -82,7 +85,8 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Notes</label>
                                 <p class="text-base text-gray-900 dark:text-gray-100 whitespace-pre-line">
-                                    {{ $transaction->notes }}</p>
+                                    {{ $transaction->notes }}
+                                </p>
                             </div>
                         @endif
 

@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class SettingsController extends Controller
@@ -50,6 +51,57 @@ class SettingsController extends Controller
     }
 
     /**
+     * Update the user's profile photo.
+     * Rate limited to 5 uploads per 10 minutes via route middleware.
+     */
+    public function updateProfilePhoto(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'profile_photo' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+        ], [
+            'profile_photo.required' => 'Please select a photo to upload.',
+            'profile_photo.image' => 'The file must be an image.',
+            'profile_photo.mimes' => 'Only JPG, PNG, and WebP images are allowed.',
+            'profile_photo.max' => 'The photo must not exceed 2MB.',
+        ]);
+
+        $user = Auth::user();
+
+        // Delete old photo if exists
+        if ($user->profile_photo && Storage::disk('public')->exists($user->profile_photo)) {
+            Storage::disk('public')->delete($user->profile_photo);
+        }
+
+        // Store new photo
+        $file = $request->file('profile_photo');
+        $filename = $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+        $path = $file->storeAs('avatars', $filename, 'public');
+
+        // Update user record
+        $user->update(['profile_photo' => $path]);
+
+        return redirect()->route('settings.personal')
+            ->with('success', 'Profile photo updated successfully.');
+    }
+
+    /**
+     * Delete the user's profile photo.
+     */
+    public function deleteProfilePhoto(): RedirectResponse
+    {
+        $user = Auth::user();
+
+        if ($user->profile_photo && Storage::disk('public')->exists($user->profile_photo)) {
+            Storage::disk('public')->delete($user->profile_photo);
+        }
+
+        $user->update(['profile_photo' => null]);
+
+        return redirect()->route('settings.personal')
+            ->with('success', 'Profile photo removed successfully.');
+    }
+
+    /**
      * Display the family settings page.
      * Only accessible by Owner (protected by TenantPolicy).
      */
@@ -86,8 +138,10 @@ class SettingsController extends Controller
 
         $tenant->update($validated);
 
+        // Refresh tenant to avoid stale data
+        $tenant->refresh();
+
         return redirect()->route('settings.family')
             ->with('success', 'Family settings updated successfully.');
     }
 }
-

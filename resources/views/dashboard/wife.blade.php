@@ -29,7 +29,8 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <div class="text-sm font-medium text-gray-500 uppercase">Family Income</div>
-                        <div class="mt-2 text-3xl font-semibold text-green-600">Rp
+                        <div class="mt-2 text-3xl font-semibold text-green-600">
+                            {{ auth()->user()->tenant->currency_symbol }}
                             {{ number_format($totalIncome, 0, ',', '.') }}
                         </div>
                         <p class="mt-2 text-xs text-gray-500">Total earnings</p>
@@ -40,7 +41,8 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <div class="text-sm font-medium text-gray-500 uppercase">Family Expenses</div>
-                        <div class="mt-2 text-3xl font-semibold text-red-600">Rp
+                        <div class="mt-2 text-3xl font-semibold text-red-600">
+                            {{ auth()->user()->tenant->currency_symbol }}
                             {{ number_format($totalExpense, 0, ',', '.') }}
                         </div>
                         <p class="mt-2 text-xs text-gray-500">Total spending</p>
@@ -53,7 +55,7 @@
                         <div class="text-sm font-medium text-gray-500 uppercase">Balance</div>
                         <div
                             class="mt-2 text-3xl font-semibold {{ $balance >= 0 ? 'text-green-600' : 'text-red-600' }}">
-                            Rp {{ number_format($balance, 0, ',', '.') }}
+                            {{ auth()->user()->tenant->currency_symbol }} {{ number_format($balance, 0, ',', '.') }}
                         </div>
                         <p class="mt-2 text-xs {{ $balance >= 0 ? 'text-green-600' : 'text-red-600' }}">
                             {{ $balance >= 0 ? '✓ Healthy balance' : '⚠ Deficit detected' }}
@@ -118,7 +120,7 @@
                                                     <td class="px-4 py-3 whitespace-nowrap text-sm">
                                                         <span
                                                             class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                                                                    {{ $transaction->type === 'income' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                                                                            {{ $transaction->type === 'income' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                                             {{ $transaction->category->name }}
                                                         </span>
                                                     </td>
@@ -127,8 +129,9 @@
                                                     </td>
                                                     <td
                                                         class="px-4 py-3 whitespace-nowrap text-sm text-right font-medium
-                                                                                {{ $transaction->type === 'income' ? 'text-green-600' : 'text-red-600' }}">
-                                                        {{ $transaction->type === 'income' ? '+' : '-' }} Rp
+                                                                                        {{ $transaction->type === 'income' ? 'text-green-600' : 'text-red-600' }}">
+                                                        {{ $transaction->type === 'income' ? '+' : '-' }}
+                                                        {{ auth()->user()->tenant->currency_symbol }}
                                                         {{ number_format($transaction->amount, 0, ',', '.') }}
                                                     </td>
                                                 </tr>
@@ -184,7 +187,8 @@
                                                 </div>
                                             </div>
                                             <div class="ml-4 text-sm font-semibold text-gray-900">
-                                                Rp {{ number_format($item->total, 0, ',', '.') }}
+                                                {{ auth()->user()->tenant->currency_symbol }}
+                                                {{ number_format($item->total, 0, ',', '.') }}
                                             </div>
                                         </div>
                                     @endforeach
@@ -193,7 +197,8 @@
                                         <div class="flex justify-between items-center">
                                             <span class="text-sm font-semibold text-gray-700">Total</span>
                                             <span class="text-sm font-bold text-red-600">
-                                                Rp {{ number_format($totalMonthExpense, 0, ',', '.') }}
+                                                {{ auth()->user()->tenant->currency_symbol }}
+                                                {{ number_format($totalMonthExpense, 0, ',', '.') }}
                                             </span>
                                         </div>
                                     </div>

@@ -24,7 +24,31 @@ class User extends Authenticatable
         'password',
         'role',
         'avatar',
+        'profile_photo',
     ];
+
+    /**
+     * Get the URL to the user's profile photo.
+     */
+    public function getProfilePhotoUrlAttribute(): ?string
+    {
+        if ($this->profile_photo) {
+            return asset('storage/' . $this->profile_photo);
+        }
+        return null;
+    }
+
+    /**
+     * Get the user's initials for avatar fallback.
+     */
+    public function getInitialsAttribute(): string
+    {
+        $words = explode(' ', trim($this->name));
+        if (count($words) >= 2) {
+            return strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1));
+        }
+        return strtoupper(substr($this->name, 0, 1));
+    }
 
     /**
      * The attributes that should be hidden for serialization.

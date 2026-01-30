@@ -38,7 +38,8 @@
                             </div>
                             <div class="ml-4">
                                 <div class="text-sm font-medium text-gray-500 uppercase">My Income</div>
-                                <div class="mt-1 text-2xl font-semibold text-green-600">Rp
+                                <div class="mt-1 text-2xl font-semibold text-green-600">
+                                    {{ auth()->user()->tenant->currency_symbol }}
                                     {{ number_format($personalIncome, 0, ',', '.') }}
                                 </div>
                             </div>
@@ -59,7 +60,8 @@
                             </div>
                             <div class="ml-4">
                                 <div class="text-sm font-medium text-gray-500 uppercase">My Spending</div>
-                                <div class="mt-1 text-2xl font-semibold text-red-600">Rp
+                                <div class="mt-1 text-2xl font-semibold text-red-600">
+                                    {{ auth()->user()->tenant->currency_symbol }}
                                     {{ number_format($personalExpense, 0, ',', '.') }}
                                 </div>
                             </div>
@@ -84,7 +86,8 @@
                                 <div class="text-sm font-medium text-gray-500 uppercase">My Savings</div>
                                 <div
                                     class="mt-1 text-2xl font-semibold {{ $personalBalance >= 0 ? 'text-blue-600' : 'text-orange-600' }}">
-                                    Rp {{ number_format($personalBalance, 0, ',', '.') }}
+                                    {{ auth()->user()->tenant->currency_symbol }}
+                                    {{ number_format($personalBalance, 0, ',', '.') }}
                                 </div>
                             </div>
                         </div>
@@ -191,7 +194,7 @@
                                                     <td class="px-4 py-3 whitespace-nowrap text-sm">
                                                         <span
                                                             class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                                                                    {{ $transaction->type === 'income' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                                                                            {{ $transaction->type === 'income' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                                             {{ $transaction->category->name }}
                                                         </span>
                                                     </td>
@@ -200,8 +203,9 @@
                                                     </td>
                                                     <td
                                                         class="px-4 py-3 whitespace-nowrap text-sm text-right font-medium
-                                                                                {{ $transaction->type === 'income' ? 'text-green-600' : 'text-red-600' }}">
-                                                        {{ $transaction->type === 'income' ? '+' : '-' }} Rp
+                                                                                        {{ $transaction->type === 'income' ? 'text-green-600' : 'text-red-600' }}">
+                                                        {{ $transaction->type === 'income' ? '+' : '-' }}
+                                                        {{ auth()->user()->tenant->currency_symbol }}
                                                         {{ number_format($transaction->amount, 0, ',', '.') }}
                                                     </td>
                                                 </tr>
@@ -253,7 +257,8 @@
                                                 </div>
                                             </div>
                                             <div class="ml-4 text-sm font-semibold text-gray-900">
-                                                Rp {{ number_format($item->total, 0, ',', '.') }}
+                                                {{ auth()->user()->tenant->currency_symbol }}
+                                                {{ number_format($item->total, 0, ',', '.') }}
                                             </div>
                                         </div>
                                     @endforeach

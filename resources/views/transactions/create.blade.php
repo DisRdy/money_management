@@ -63,7 +63,7 @@
                         {{-- Amount --}}
                         <div class="mb-6">
                             <label for="amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Amount (Rp) <span class="text-red-500">*</span>
+                                Amount ({{ auth()->user()->tenant->currency_symbol }}) <span class="text-red-500">*</span>
                             </label>
                             <input type="number" name="amount" id="amount" 
                                    value="{{ old('amount') }}"

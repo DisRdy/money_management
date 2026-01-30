@@ -159,7 +159,7 @@
                                                 <div
                                                     class="text-sm font-semibold 
                                                             {{ $transaction->type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
-                                                    {{ $transaction->type === 'income' ? '+' : '-' }} Rp
+                                                    {{ $transaction->type === 'income' ? '+' : '-' }} {{ auth()->user()->tenant->currency_symbol }}
                                                     {{ number_format($transaction->amount, 0, ',', '.') }}
                                                 </div>
                                             </td>
@@ -238,7 +238,7 @@
                         <div class="p-6">
                             <div class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase">Total Income (Filtered)</div>
                             <div class="mt-2 text-2xl font-semibold text-green-600 dark:text-green-400">
-                                Rp {{ number_format($transactions->where('type', 'income')->sum('amount'), 0, ',', '.') }}
+                                {{ auth()->user()->tenant->currency_symbol }} {{ number_format($transactions->where('type', 'income')->sum('amount'), 0, ',', '.') }}
                             </div>
                         </div>
                     </div>
@@ -246,7 +246,7 @@
                         <div class="p-6">
                             <div class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase">Total Expense (Filtered)</div>
                             <div class="mt-2 text-2xl font-semibold text-red-600 dark:text-red-400">
-                                Rp {{ number_format($transactions->where('type', 'expense')->sum('amount'), 0, ',', '.') }}
+                                {{ auth()->user()->tenant->currency_symbol }} {{ number_format($transactions->where('type', 'expense')->sum('amount'), 0, ',', '.') }}
                             </div>
                         </div>
                     </div>
@@ -257,7 +257,7 @@
                                 $net = $transactions->where('type', 'income')->sum('amount') - $transactions->where('type', 'expense')->sum('amount');
                             @endphp
                             <div class="mt-2 text-2xl font-semibold {{ $net >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
-                                Rp {{ number_format($net, 0, ',', '.') }}
+                                {{ auth()->user()->tenant->currency_symbol }} {{ number_format($net, 0, ',', '.') }}
                             </div>
                         </div>
                     </div>
