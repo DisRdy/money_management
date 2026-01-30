@@ -209,7 +209,7 @@
                                                     <td class="px-4 py-3 whitespace-nowrap text-sm">
                                                         <span
                                                             class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                                                    {{ $transaction->type === 'income' ? 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300' : 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300' }}">
+                                                                                    {{ $transaction->type === 'income' ? 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300' : 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300' }}">
                                                             {{ $transaction->category->name }}
                                                         </span>
                                                     </td>
@@ -218,7 +218,7 @@
                                                     </td>
                                                     <td
                                                         class="px-4 py-3 whitespace-nowrap text-sm text-right font-medium
-                                                                {{ $transaction->type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
+                                                                                {{ $transaction->type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
                                                         {{ $transaction->type === 'income' ? '+' : '-' }}
                                                         {{ auth()->user()->tenant->currency_symbol }}
                                                         {{ number_format($transaction->amount, 0, ',', '.') }}
