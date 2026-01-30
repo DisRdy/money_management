@@ -11,6 +11,7 @@ class Tenant extends Model
 
     protected $fillable = [
         'name', // Family name
+        'currency', // Currency display setting
     ];
 
     public function users()

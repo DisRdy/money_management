@@ -1,5 +1,23 @@
+@php
+    // THEME SYSTEM - Single Source of Truth: user_settings.theme
+    // ============================================================
+    // Theme is controlled ONLY via Personal Settings form submission.
+    // No localStorage, no matchMedia, no JS auto-switch.
+    // 
+    // 'system' resolution: Server-side defaults to LIGHT mode.
+    // This is a consistent rule - no JavaScript-based auto-detection.
+
+    $theme = 'system';
+    if (auth()->check()) {
+        $theme = auth()->user()->getTheme();
+    }
+
+    // Apply dark class only when theme is explicitly 'dark'
+    // 'system' and 'light' both result in light mode (no dark class)
+    $darkClass = $theme === 'dark' ? 'dark' : '';
+@endphp
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="{{ $darkClass }}">
 
 <head>
     <meta charset="utf-8">
@@ -16,7 +34,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased bg-gray-50">
+<body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
     <div class="min-h-screen flex">
         <!-- Sidebar -->
         <x-sidebar />
@@ -24,10 +42,13 @@
         <!-- Main Content Area -->
         <div class="flex-1 md:ml-64">
             <!-- Top Navigation Bar (Mobile) -->
-            <div class="md:hidden bg-white border-b border-gray-200 sticky top-0 z-10">
+            <div
+                class="md:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
                 <div class="px-4 py-3 flex items-center justify-between">
-                    <h1 class="text-xl font-bold text-gray-800">{{ config('app.name', 'Yok Nabung') }}</h1>
-                    <button id="mobile-menu-button" class="text-gray-600 hover:text-gray-800">
+                    <h1 class="text-xl font-bold text-gray-800 dark:text-gray-100">
+                        {{ config('app.name', 'Yok Nabung') }}</h1>
+                    <button id="mobile-menu-button"
+                        class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 6h16M4 12h16M4 18h16" />

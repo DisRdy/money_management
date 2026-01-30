@@ -43,6 +43,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/audit-logs', [\App\Http\Controllers\AuditLogController::class, 'index'])->name('audit-logs.index');
         Route::get('/audit-logs/{auditLog}', [\App\Http\Controllers\AuditLogController::class, 'show'])->name('audit-logs.show');
     });
+
+    // Settings Routes
+    Route::prefix('settings')->name('settings.')->group(function () {
+        // Personal Settings (all roles)
+        Route::get('/personal', [\App\Http\Controllers\SettingsController::class, 'personal'])->name('personal');
+        Route::post('/personal/theme', [\App\Http\Controllers\SettingsController::class, 'updateTheme'])->name('personal.theme');
+
+        // Family Settings (Owner only - protected by TenantPolicy in controller)
+        Route::get('/family', [\App\Http\Controllers\SettingsController::class, 'family'])->name('family');
+        Route::post('/family', [\App\Http\Controllers\SettingsController::class, 'updateFamily'])->name('family.update');
+    });
 });
 
 require __DIR__ . '/auth.php';

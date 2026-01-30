@@ -29,6 +29,9 @@ class AppServiceProvider extends ServiceProvider
             return $user->isOwner();
         });
 
+        // Register TenantPolicy for Family Settings
+        \Illuminate\Support\Facades\Gate::policy(\App\Models\Tenant::class, \App\Policies\TenantPolicy::class);
+
         // Register Observers
         \App\Models\Transaction::observe(\App\Observers\TransactionObserver::class);
     }
