@@ -35,4 +35,20 @@ class Tenant extends Model
     {
         return $this->users()->where('role', 'owner')->first();
     }
+
+    /**
+     * Get the currency symbol for display.
+     */
+    public function getCurrencySymbolAttribute(): string
+    {
+        return match ($this->currency) {
+            'USD' => '$',
+            'EUR' => '€',
+            'GBP' => '£',
+            'JPY' => '¥',
+            'SGD' => 'S$',
+            'MYR' => 'RM',
+            default => 'Rp', // IDR
+        };
+    }
 }

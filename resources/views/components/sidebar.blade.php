@@ -16,10 +16,15 @@
         <div
             class="px-4 py-4 border-b border-gray-100 dark:border-gray-700 bg-gradient-to-br from-indigo-50 to-white dark:from-gray-700 dark:to-gray-800">
             <div class="flex items-center space-x-3">
-                <div
-                    class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold">
-                    {{ strtoupper(substr($user->name, 0, 1)) }}
-                </div>
+                @if($user->profile_photo_url)
+                    <img src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}"
+                        class="w-10 h-10 rounded-full object-cover border-2 border-indigo-200 dark:border-indigo-700">
+                @else
+                    <div
+                        class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold">
+                        {{ $user->initials }}
+                    </div>
+                @endif
                 <div class="flex-1 min-w-0">
                     <p class="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">{{ $user->name }}</p>
                     <p class="text-xs text-indigo-600 dark:text-indigo-400 font-medium">

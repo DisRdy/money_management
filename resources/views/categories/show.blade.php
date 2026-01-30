@@ -15,7 +15,8 @@
                         <div>
                             <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $category->name }}</h3>
                             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Created by
-                                {{ $category->user->name }}</p>
+                                {{ $category->user->name }}
+                            </p>
                         </div>
                         <span
                             class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full 
@@ -47,14 +48,16 @@
                                 <label
                                     class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Created</label>
                                 <p class="text-base text-gray-900 dark:text-gray-100">
-                                    {{ $category->created_at->format('d M Y') }}</p>
+                                    {{ $category->created_at->format('d M Y') }}
+                                </p>
                             </div>
                             @if($category->created_at != $category->updated_at)
                                 <div>
                                     <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Last
                                         Updated</label>
                                     <p class="text-base text-gray-900 dark:text-gray-100">
-                                        {{ $category->updated_at->format('d M Y') }}</p>
+                                        {{ $category->updated_at->format('d M Y') }}
+                                    </p>
                                 </div>
                             @endif
                         </div>
@@ -103,8 +106,9 @@
                                             </td>
                                             <td
                                                 class="px-4 py-3 whitespace-nowrap text-sm text-right font-semibold
-                                                                                {{ $transaction->type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
-                                                {{ $transaction->type === 'income' ? '+' : '-' }} Rp
+                                                                                        {{ $transaction->type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
+                                                {{ $transaction->type === 'income' ? '+' : '-' }}
+                                                {{ auth()->user()->tenant->currency_symbol }}
                                                 {{ number_format($transaction->amount, 0, ',', '.') }}
                                             </td>
                                             <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">

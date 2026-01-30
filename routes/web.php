@@ -49,6 +49,11 @@ Route::middleware('auth')->group(function () {
         // Personal Settings (all roles)
         Route::get('/personal', [\App\Http\Controllers\SettingsController::class, 'personal'])->name('personal');
         Route::post('/personal/theme', [\App\Http\Controllers\SettingsController::class, 'updateTheme'])->name('personal.theme');
+        Route::post('/personal/profile-photo', [\App\Http\Controllers\SettingsController::class, 'updateProfilePhoto'])
+            ->middleware('throttle:5,10')
+            ->name('personal.profile-photo');
+        Route::delete('/personal/profile-photo', [\App\Http\Controllers\SettingsController::class, 'deleteProfilePhoto'])
+            ->name('personal.profile-photo.delete');
 
         // Family Settings (Owner only - protected by TenantPolicy in controller)
         Route::get('/family', [\App\Http\Controllers\SettingsController::class, 'family'])->name('family');

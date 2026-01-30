@@ -32,7 +32,8 @@
                     class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg border border-gray-200 dark:border-gray-700">
                     <div class="p-6">
                         <div class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase">Total Income</div>
-                        <div class="mt-2 text-3xl font-semibold text-green-600 dark:text-green-400">Rp
+                        <div class="mt-2 text-3xl font-semibold text-green-600 dark:text-green-400">
+                            {{ auth()->user()->tenant->currency_symbol }}
                             {{ number_format($totalIncome, 0, ',', '.') }}
                         </div>
                     </div>
@@ -43,7 +44,8 @@
                     class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg border border-gray-200 dark:border-gray-700">
                     <div class="p-6">
                         <div class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase">Total Expense</div>
-                        <div class="mt-2 text-3xl font-semibold text-red-600 dark:text-red-400">Rp
+                        <div class="mt-2 text-3xl font-semibold text-red-600 dark:text-red-400">
+                            {{ auth()->user()->tenant->currency_symbol }}
                             {{ number_format($totalExpense, 0, ',', '.') }}
                         </div>
                     </div>
@@ -56,7 +58,7 @@
                         <div class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase">Balance</div>
                         <div
                             class="mt-2 text-3xl font-semibold {{ $balance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
-                            Rp {{ number_format($balance, 0, ',', '.') }}
+                            {{ auth()->user()->tenant->currency_symbol }} {{ number_format($balance, 0, ',', '.') }}
                         </div>
                     </div>
                 </div>
@@ -142,7 +144,7 @@
                                                     <td class="px-4 py-3 whitespace-nowrap text-sm">
                                                         <span
                                                             class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                                                                    {{ $transaction->type === 'income' ? 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300' : 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300' }}">
+                                                                                            {{ $transaction->type === 'income' ? 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300' : 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300' }}">
                                                             {{ $transaction->category->name }}
                                                         </span>
                                                     </td>
@@ -151,8 +153,9 @@
                                                     </td>
                                                     <td
                                                         class="px-4 py-3 whitespace-nowrap text-sm text-right font-medium
-                                                                                {{ $transaction->type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
-                                                        {{ $transaction->type === 'income' ? '+' : '-' }} Rp
+                                                                                        {{ $transaction->type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
+                                                        {{ $transaction->type === 'income' ? '+' : '-' }}
+                                                        {{ auth()->user()->tenant->currency_symbol }}
                                                         {{ number_format($transaction->amount, 0, ',', '.') }}
                                                     </td>
                                                 </tr>
@@ -185,7 +188,8 @@
                                         <div class="flex justify-between items-center">
                                             <div class="flex-1">
                                                 <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                                    {{ $item->category->name }}</div>
+                                                    {{ $item->category->name }}
+                                                </div>
                                                 <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-1">
                                                     <div class="bg-red-600 dark:bg-red-500 h-2 rounded-full"
                                                         style="width: {{ $totalExpense > 0 ? ($item->total / $totalExpense * 100) : 0 }}%">
@@ -193,7 +197,8 @@
                                                 </div>
                                             </div>
                                             <div class="ml-4 text-sm font-semibold text-gray-900 dark:text-gray-100">
-                                                Rp {{ number_format($item->total, 0, ',', '.') }}
+                                                {{ auth()->user()->tenant->currency_symbol }}
+                                                {{ number_format($item->total, 0, ',', '.') }}
                                             </div>
                                         </div>
                                     @endforeach
